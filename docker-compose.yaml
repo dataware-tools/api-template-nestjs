@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api-template-nestjs:
+    image: api:latest
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ./
+        target: /opt/app
+    tty: true

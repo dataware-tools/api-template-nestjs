@@ -1,0 +1,40 @@
+name: Build and test
+
+on: [push]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Trivy
+        run: |
+          sudo apt-get -y install curl
+          VERSION=$(
+              curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | \
+              grep '"tag_name":' | \
+              sed -E 's/.*"v([^"]+)".*/\1/'
+          )
+
+          wget https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
+          tar zxvf trivy_${VERSION}_Linux-64bit.tar.gz
+          sudo mv trivy /usr/local/bin/
+
+      - name: Build production image
+        env:
+          NPM_REGISTRY: https://npm.pkg.github.com
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export DOCKER_BUILDKIT=1
+          [[ -n "${NPM_TOKEN}" ]] && echo "//${NPM_REGISTRY##*://}/:_authToken=${NPM_TOKEN}" > /tmp/.npmrc
+          cat /tmp/.npmrc
+          docker build --target production -t app:production --secret id=npmrc,src=/tmp/.npmrc .
+
+      - name: Scan production image
+        run: trivy --exit-code 0 --no-progress app:production
+
+      - name: Exec test
+        run: docker run app:production npm run test
