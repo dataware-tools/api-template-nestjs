@@ -6,12 +6,12 @@ jobs:
   hook:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    if: github.actor != 'dependabot[bot]'
+    if: github.actor != 'dependabot[bot]' && !contains(github.repository, "template")
     steps:
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: dataware-tools/web-deployment
           event-type: build-and-deploy
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "repo_name": "${{ github.event.repository.name }}", "repo_full_name": "${{ github.event.repository.full_name }}", "self_hosted": "true"}'
