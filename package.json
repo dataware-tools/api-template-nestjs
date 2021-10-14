@@ -1,6 +1,10 @@
 {
-  "name": "test",
+  "name": "api-template-nestjs",
   "version": "0.0.1",
+  "engines": {
+    "node": "16.10.0",
+    "npm": "7.x"
+  },
   "description": "",
   "author": "",
   "private": true,
@@ -65,5 +69,8 @@
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.3.5"
+  },
+  "volta": {
+    "node": "16.10.0"
   }
 }
