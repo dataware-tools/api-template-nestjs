@@ -1,5 +1,4 @@
+const baseConfig = require("@dataware-tools/dev-tools-for-typescript/configs/lint-staged.config");
 module.exports = {
-  "**/*.{js,ts}": "eslint --fix",
-  "**/*.{js,ts,md}": "prettier --write ",
-  "**/*.ts": () => "tsc --noEmit --project tsconfig.json",
+  ...baseConfig,
 };

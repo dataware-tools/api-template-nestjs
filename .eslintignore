@@ -1,1 +1,4 @@
 /coverage
+
+*rc.js
+*.config.js
