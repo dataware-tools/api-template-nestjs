@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@dataware-tools/dev-tools-for-typescript": "^0.0.1",
-    "@dataware-tools/eslint-config": "^0.0.0",
+    "@dataware-tools/eslint-config": "^0.1.0",
     "@nestjs/cli": "8.2.6",
     "@nestjs/schematics": "8.0.11",
     "@nestjs/testing": "^8.2.6",
